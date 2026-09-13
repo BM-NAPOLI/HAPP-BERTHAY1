@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>14.09.2026 — A Little Gift For You</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="stars" id="stars"></div>
+
+    <main class="app">
+
+        <!-- =========================
+                SCENE 1 — OPENING
+        ========================== -->
+
+        <section class="scene active" id="opening">
+
+            <div class="date">14.09.2026</div>
+
+            <div class="moon">☾</div>
+
+            <p class="small-text">A little gift for you...</p>
+
+            <h1>
+                Hey,<br>
+                <span>Baby.</span>
+            </h1>
+
+            <p class="description">
+                I made something small for your special day.
+            </p>
+
+            <button class="main-btn" id="startBtn">
+                Open the surprise
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             SCENE 2 — GIFT
+        ========================== -->
+
+        <section class="scene" id="giftScene">
+
+            <p class="eyebrow">Something is waiting for you</p>
+
+            <h2>Take your time...</h2>
+
+            <div class="gift-wrapper" id="giftBox">
+
+                <div class="gift-lid">
+                    <span></span>
+                </div>
+
+                <div class="gift-body">
+                    <div class="gift-ribbon vertical"></div>
+                    <div class="gift-ribbon horizontal"></div>
+                </div>
+
+                <div class="gift-glow"></div>
+
+            </div>
+
+            <p class="hint" id="giftHint">
+                Tap the gift 🎁
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SCENE 3 — FLOWER
+        ========================== -->
+
+        <section class="scene" id="flowerScene">
+
+            <p class="eyebrow">A little something...</p>
+
+            <h2>For someone special.</h2>
+
+            <div class="flower-wrapper" id="flower">
+
+                <div class="flower-center"></div>
+
+                <div class="petal petal-1"></div>
+                <div class="petal petal-2"></div>
+                <div class="petal petal-3"></div>
+                <div class="petal petal-4"></div>
+                <div class="petal petal-5"></div>
+                <div class="petal petal-6"></div>
+                <div class="petal petal-7"></div>
+                <div class="petal petal-8"></div>
+
+                <div class="flower-stem"></div>
+
+            </div>
+
+            <p class="flower-text" id="flowerText">
+                Some things don't need to be expensive to be special.
+            </p>
+
+            <button class="main-btn hidden" id="flowerBtn">
+                Keep going
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             SCENE 4 — BIRTHDAY
+        ========================== -->
+
+        <section class="scene" id="birthdayScene">
+
+            <p class="eyebrow">And now...</p>
+
+            <h2>Make a wish.</h2>
+
+            <div class="cake">
+
+                <div class="cake-top">
+                    <div class="icing"></div>
+                </div>
+
+                <div class="cake-middle"></div>
+
+                <div class="cake-bottom"></div>
+
+                <div class="candles" id="candles"></div>
+
+            </div>
+
+            <p class="cake-hint">
+                14 candles. One wish.
+            </p>
+
+            <button class="main-btn" id="wishBtn">
+                Make a wish ✨
+            </button>
+
+            <div class="confetti-container" id="confetti"></div>
+
+        </section>
+
+
+        <!-- =========================
+             SCENE 5 — LETTER
+        ========================== -->
+
+        <section class="scene" id="letterScene">
+
+            <p class="eyebrow">Finally...</p>
+
+            <h2>A letter for you.</h2>
+
+            <div class="envelope" id="envelope">
+
+                <div class="envelope-back"></div>
+
+                <div class="letter-paper" id="letterPaper">
+
+                    <div class="letter-content">
+
+                        <p id="letterText"></p>
+
+                        <span class="cursor">|</span>
+
+                    </div>
+
+                </div>
+
+                <div class="envelope-front"></div>
+
+                <div class="envelope-flap"></div>
+
+                <div class="heart-seal">
+                    ♥
+                </div>
+
+            </div>
+
+            <button class="main-btn" id="letterBtn">
+                Open the letter
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             SCENE 6 — FINAL
+        ========================== -->
+
+        <section class="scene" id="finalScene">
+
+            <div class="final-stars" id="finalStars"></div>
+
+            <p class="date">14.09.2026</p>
+
+            <div class="final-heart">
+                ♥
+            </div>
+
+            <h1>
+                Happy Birthday,
+                <span>Baby.</span>
+            </h1>
+
+            <p class="final-message">
+                I hope this little surprise made you smile.
+            </p>
+
+            <p class="signature">
+                — Rayan
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- Audio -->
+    <audio id="birthdayMusic" loop>
+        <source src="assets/music/birthday.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
