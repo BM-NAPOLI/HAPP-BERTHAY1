@@ -29,6 +29,65 @@ const stars = document.querySelector("#stars");
 const finalStars = document.querySelector("#finalStars");
 
 const music = document.querySelector("#birthdayMusic");
+let audioContext = null;
+let birthdaySongInterval = null;
+
+
+function playBirthdaySong() {
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    if (!audioContext) {
+        audioContext = new AudioContextClass();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    if (birthdaySongInterval) {
+        clearInterval(birthdaySongInterval);
+    }
+
+    const melody = [
+        523.25, 659.25, 783.99, 659.25,
+        587.33, 659.25, 783.99, 880.00,
+        783.99, 659.25, 587.33, 523.25,
+        587.33, 659.25, 698.46, 659.25
+    ];
+
+    let noteIndex = 0;
+
+    function playTone(frequency, duration = 0.26) {
+
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.value = frequency;
+
+        gainNode.gain.setValueAtTime(0.0001, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration + 0.04);
+    }
+
+    const playNextNote = () => {
+        playTone(melody[noteIndex % melody.length], 0.28);
+        noteIndex++;
+    };
+
+    playNextNote();
+
+    birthdaySongInterval = setInterval(playNextNote, 320);
+}
 
 
 /* =========================================
@@ -137,9 +196,10 @@ MUUUUUUUUUUUH 3LIK ABENTIIII 😭❤️💋
 
 function showScene(scene) {
 
-    document.querySelector(".scene.active").classList.remove("active");
+    const current = document.querySelector(".scene.active");
+    if (current) current.classList.remove("active");
 
-    scene.classList.add("active");
+    if (scene) scene.classList.add("active");
 }
 
 
@@ -148,6 +208,8 @@ function showScene(scene) {
 ========================================= */
 
 function createStars() {
+
+    if (!stars) return;
 
     for (let i = 0; i < 90; i++) {
 
@@ -175,6 +237,8 @@ function createStars() {
 
 function createFinalStars() {
 
+    if (!finalStars) return;
+
     for (let i = 0; i < 40; i++) {
 
         const star = document.createElement("span");
@@ -198,6 +262,8 @@ function createFinalStars() {
 
 function createCandles() {
 
+    if (!candlesContainer) return;
+
     for (let i = 0; i < 14; i++) {
 
         const candle = document.createElement("div");
@@ -219,52 +285,59 @@ function createCandles() {
    OPENING
 ========================================= */
 
-startBtn.addEventListener("click", function () {
+if (startBtn) {
+    startBtn.addEventListener("click", function () {
 
-    showScene(giftScene);
+        playBirthdaySong();
+        showScene(giftScene);
 
-});
+    });
+}
 
 
 /* =========================================
    GIFT
 ========================================= */
 
-giftBox.addEventListener("click", function () {
+if (giftBox) {
+    giftBox.addEventListener("click", function () {
 
-    giftBox.classList.add("opened");
+        giftBox.classList.add("opened");
 
-    giftBox.style.pointerEvents = "none";
-
-    setTimeout(function () {
-
-        showScene(flowerScene);
-
-        flower.classList.add("bloom");
+        giftBox.style.pointerEvents = "none";
 
         setTimeout(function () {
 
-            flowerText.textContent =
-                "Sometimes, it's the thought behind them.";
+            showScene(flowerScene);
 
-            flowerBtn.classList.remove("hidden");
+            if (flower) flower.classList.add("bloom");
 
-        }, 1800);
+            setTimeout(function () {
 
-    }, 1200);
+                if (flowerText) flowerText.textContent =
+                    "Sometimes, it's the thought behind them.";
 
-});
+                if (flowerBtn) flowerBtn.classList.remove("hidden");
+
+            }, 1800);
+
+        }, 1200);
+
+    });
+}
 
 
 /* =========================================
    FLOWER
 ========================================= */
 
-flowerBtn.addEventListener("click", function () {
+if (flowerBtn) {
+    flowerBtn.addEventListener("click", function () {
 
-    showScene(birthdayScene);
+        showScene(birthdayScene);
 
-});
+    });
+}
 
 
 /* =========================================
@@ -278,31 +351,33 @@ createCandles();
    WISH
 ========================================= */
 
-wishBtn.addEventListener("click", function () {
+if (wishBtn) {
+    wishBtn.addEventListener("click", function () {
 
-    const candles = document.querySelectorAll(".candle");
+        const candles = document.querySelectorAll(".candle");
 
-    candles.forEach(function (candle, index) {
+        candles.forEach(function (candle, index) {
+
+            setTimeout(function () {
+
+                candle.classList.add("off");
+
+            }, index * 100);
+
+        });
+
+        createConfetti();
+
+        wishBtn.textContent = "Wish made ✨";
 
         setTimeout(function () {
 
-            candle.classList.add("off");
+            showScene(letterScene);
 
-        }, index * 100);
+        }, 2800);
 
     });
-
-    createConfetti();
-
-    wishBtn.textContent = "Wish made ✨";
-
-    setTimeout(function () {
-
-        showScene(letterScene);
-
-    }, 2800);
-
-});
+}
 
 
 /* =========================================
@@ -310,6 +385,8 @@ wishBtn.addEventListener("click", function () {
 ========================================= */
 
 function createConfetti() {
+
+    if (!confetti) return;
 
     for (let i = 0; i < 100; i++) {
 
@@ -336,19 +413,21 @@ function createConfetti() {
    OPEN LETTER
 ========================================= */
 
-letterBtn.addEventListener("click", function () {
+if (letterBtn) {
+    letterBtn.addEventListener("click", function () {
 
-    envelope.classList.add("open");
+        if (envelope) envelope.classList.add("open");
 
-    letterBtn.style.display = "none";
+        letterBtn.style.display = "none";
 
-    setTimeout(function () {
+        setTimeout(function () {
 
-        typeLetter();
+            typeLetter();
 
-    }, 700);
+        }, 700);
 
-});
+    });
+}
 
 
 /* =========================================
@@ -363,7 +442,7 @@ function typeLetter() {
 
     const interval = setInterval(function () {
 
-        letterText.textContent += letter[index];
+        if (letterText) letterText.textContent += letter[index] || "";
 
         index++;
 
@@ -371,7 +450,7 @@ function typeLetter() {
 
             clearInterval(interval);
 
-            cursor.style.display = "none";
+            if (cursor) cursor.style.display = "none";
 
             setTimeout(function () {
 
@@ -393,3 +472,50 @@ function typeLetter() {
 ========================================= */
 
 createStars();
+
+
+
+
+/* =========================================
+   AUDIO: PLAY SEGMENT
+   Plays an audio element from `startSec` to `endSec` (seconds).
+========================================= */
+
+let _segmentEndListener = null;
+
+function playAudioSegment(startSec, endSec, loop = false) {
+
+    if (!music) return;
+
+    // ensure valid numbers
+    startSec = Number(startSec) || 0;
+    endSec = Number(endSec) || music.duration || (startSec + 1);
+
+    try {
+        // jump to start and play
+        music.currentTime = Math.max(0, startSec);
+        const playPromise = music.play();
+        if (playPromise && playPromise.catch) playPromise.catch(() => { });
+    } catch (e) { }
+
+    // remove previous listener
+    if (_segmentEndListener) {
+        music.removeEventListener('timeupdate', _segmentEndListener);
+        _segmentEndListener = null;
+    }
+
+    _segmentEndListener = function () {
+        if (music.currentTime >= endSec - 0.1) {
+            if (loop) {
+                music.currentTime = startSec;
+            } else {
+                music.pause();
+                music.removeEventListener('timeupdate', _segmentEndListener);
+                _segmentEndListener = null;
+            }
+        }
+    };
+
+    music.addEventListener('timeupdate', _segmentEndListener);
+
+}
